@@ -1,0 +1,20 @@
+use std::{env, fs};
+use solutions;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    match args[1].as_str() {
+        "1" => {
+            let input = read_puzzle_input("1");
+            solutions::day1::run(input);
+        }
+        _ => {
+            println!("Day {} not implemented", args[1]);
+        }
+    }
+}
+
+fn read_puzzle_input(day: &str) -> String {
+    fs::read_to_string(format!("src/solutions/day{}.input", day))
+        .expect(&format!("No input file for day {} found", day))
+}
