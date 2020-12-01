@@ -36,7 +36,6 @@ fn part_2(input: &Vec<i64>) -> i64 {
 
 #[cfg(test)]
 mod tests {
-
     #[test]
     fn part_1() {
         let input: Vec<i64> = vec![1721, 979, 366, 299, 675, 1456];
