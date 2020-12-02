@@ -50,7 +50,6 @@ pub fn run(input: String) {
 
 fn to_policies_and_passwords(input: String) -> Vec<PasswordAndPolicy> {
     input.lines()
-        .into_iter()
         .map(|line| line.parse::<PasswordAndPolicy>())
         .filter_map(Result::ok)
         .collect()
