@@ -1,8 +1,8 @@
-use std::{fmt, str};
+use std::{fmt, str, cmp};
 use regex::Regex;
 use lazy_static::lazy_static;
 
-#[derive(fmt::Debug)]
+#[derive(fmt::Debug, cmp::PartialEq, cmp::Eq)]
 struct PasswordAndPolicy {
     password: String,
     lower: usize,
@@ -86,10 +86,12 @@ mod tests {
     #[test]
     fn should_convert_line_to_password_and_policy() {
         let result: PasswordAndPolicy = "1-3 a: abcde".parse().unwrap();
-        assert_eq!(result.lower, 1);
-        assert_eq!(result.upper, 3);
-        assert_eq!(result.character, 'a');
-        assert_eq!(result.password, "abcde".to_string());
+        assert_eq!(result, PasswordAndPolicy{
+            password: String::from("abcde"),
+            lower: 1,
+            upper: 3,
+            character: 'a'
+        });
     }
 
     #[test]
