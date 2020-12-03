@@ -71,7 +71,7 @@ fn check_passwords_part2(password_and_policy_list: &Vec<PasswordAndPolicy>) -> u
     for pp in password_and_policy_list {
         let first = pp.password.chars().nth(pp.lower - 1).unwrap();
         let second = pp.password.chars().nth(pp.upper - 1).unwrap();
-        if (first == pp.character && second != pp.character) || (first != pp.character && second == pp.character) {
+        if (first == pp.character) ^ (second == pp.character) {
             count += 1;
         }
     }
