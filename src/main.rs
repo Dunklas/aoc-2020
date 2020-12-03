@@ -1,5 +1,7 @@
 use std::{env, fs};
-use solutions;
+
+mod grid;
+mod solutions;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -11,6 +13,10 @@ fn main() {
         "2" => {
             let input = read_puzzle_input("2");
             solutions::day2::run(input);
+        },
+        "3" => {
+            let input = read_puzzle_input("3");
+            solutions::day3::run(input);
         }
         _ => {
             println!("Day {} not implemented", args[1]);
