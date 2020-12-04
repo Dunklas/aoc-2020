@@ -2,6 +2,14 @@ use std::{fmt, str, collections, cmp};
 use regex::Regex;
 use lazy_static::lazy_static;
 
+lazy_static! {
+    static ref CREDENTIAL_PATTERN: Regex = Regex::new(r"(\w{3}):(#??\w+)").unwrap();
+    static ref HEIGHT_PATTERN: Regex = Regex::new(r"(\d+)(cm|in)").unwrap();
+    static ref HAIR_PATTERN: Regex = Regex::new(r"#[a-f0-9]{6}").unwrap();
+    static ref EYE_PATTERN: Regex = Regex::new(r"amb|blu|brn|gry|grn|hzl|oth").unwrap();
+    static ref PASSPORT_PATTERN: Regex = Regex::new(r"\d{9}").unwrap();
+}
+
 #[derive(fmt::Debug,cmp::PartialEq, cmp::Eq)]
 struct NorthPoleCredentials {
     pub birth_year: String,
@@ -18,9 +26,6 @@ impl str::FromStr for NorthPoleCredentials {
     type Err = ParseNorthPoleCredentialsError; 
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        lazy_static! {
-            static ref CREDENTIAL_PATTERN: Regex = Regex::new(r"(\w{3}):(#??\w+)").unwrap();
-        }
         let mut properties: collections::HashMap<String, String> = collections::HashMap::new(); 
         for cap in CREDENTIAL_PATTERN.captures_iter(s) {
             properties.insert(String::from(&cap[1]), String::from(&cap[2]));
@@ -47,25 +52,13 @@ impl str::FromStr for NorthPoleCredentials {
 
 impl NorthPoleCredentials {
     fn is_valid(self: &Self) -> bool {
-        if !in_num_range(&self.birth_year, 1920, 2002) {
-            return false;
-        }
-        if !in_num_range(&self.issue_year, 2010, 2020) {
-            return false;
-        }
-        if !in_num_range(&self.expiration_year, 2020, 2030) {
-            return false;
-        }
-        if !valid_height(&self.height) {
-            return false;
-        }
-        if !valid_hair_color(&self.hair_color) {
-            return false;
-        }
-        if !valid_eye_color(&self.eye_color) {
-            return false;
-        }
-        if !valid_passport_id(&self.passport_id) {
+        if !in_num_range(&self.birth_year, 1920, 2002) ||
+           !in_num_range(&self.issue_year, 2010, 2020) ||
+           !in_num_range(&self.expiration_year, 2020, 2030) ||
+           !valid_height(&self.height) ||
+           !valid_hair_color(&self.hair_color) ||
+           !valid_eye_color(&self.eye_color) ||
+           !valid_passport_id(&self.passport_id) {
             return false;
         }
         return true;
@@ -95,9 +88,7 @@ fn parse_credentials(input: String) -> Vec<NorthPoleCredentials> {
 fn in_num_range(str: &String, lower: u32, upper: u32) -> bool {
     let numeric_value: u32 = match str.parse() {
         Ok(value) => value,
-        Err(_e) => {
-            return false;
-        }
+        Err(_e) => return false
     };
     if numeric_value < lower || numeric_value > upper {
         return false;
@@ -106,9 +97,6 @@ fn in_num_range(str: &String, lower: u32, upper: u32) -> bool {
 }
 
 fn valid_height(str: &String) -> bool {
-    lazy_static! {
-        static ref HEIGHT_PATTERN: Regex = Regex::new(r"(\d+)(cm|in)").unwrap();
-    }
     match HEIGHT_PATTERN.captures(str) {
         Some(captures) => {
             let unit = &captures[2];
@@ -129,24 +117,15 @@ fn valid_height(str: &String) -> bool {
 }
 
 fn valid_hair_color(str: &String) -> bool {
-    lazy_static! {
-        static ref HAIR_PATTERN: Regex = Regex::new(r"#[a-f0-9]{6}").unwrap();
-    }
-    return HAIR_PATTERN.is_match(str);
+    HAIR_PATTERN.is_match(str)
 }
 
 fn valid_eye_color(str: &String) -> bool {
-    lazy_static! {
-        static ref EYE_PATTERN: Regex = Regex::new(r"amb|blu|brn|gry|grn|hzl|oth").unwrap();
-    }
-    return EYE_PATTERN.is_match(str);
+    EYE_PATTERN.is_match(str)
 }
 
 fn valid_passport_id(str: &String) -> bool {
-    lazy_static! {
-        static ref PASSPORT_PATTERN: Regex = Regex::new(r"\d{9}").unwrap();
-    }
-    return PASSPORT_PATTERN.is_match(str) && str.len() == 9;
+    PASSPORT_PATTERN.is_match(str) && str.len() == 9
 }
 
 
@@ -246,5 +225,4 @@ eyr:2022"));
         assert_eq!(valid_passport_id(&String::from("000000001")), true);
         assert_eq!(valid_passport_id(&String::from("0123456789")), false);
     }
-
 }
