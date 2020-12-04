@@ -17,6 +17,10 @@ fn main() {
         "3" => {
             let input = read_puzzle_input("3");
             solutions::day3::run(input);
+        },
+        "4" => {
+            let input = read_puzzle_input("4");
+            solutions::day4::run(input);
         }
         _ => {
             println!("Day {} not implemented", args[1]);
