@@ -5,22 +5,23 @@ mod solutions;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
+    let day = args[1].as_str();
+    let input = read_puzzle_input(day);
     match args[1].as_str() {
         "1" => {
-            let input = read_puzzle_input("1");
             solutions::day1::run(input);
         },
         "2" => {
-            let input = read_puzzle_input("2");
             solutions::day2::run(input);
         },
         "3" => {
-            let input = read_puzzle_input("3");
             solutions::day3::run(input);
         },
         "4" => {
-            let input = read_puzzle_input("4");
             solutions::day4::run(input);
+        },
+        "5" => {
+            solutions::day5::run(input);
         }
         _ => {
             println!("Day {} not implemented", args[1]);
