@@ -22,6 +22,9 @@ fn main() {
         },
         "5" => {
             solutions::day5::run(input);
+        },
+        "6" => {
+            solutions::day6::run(input);
         }
         _ => {
             println!("Day {} not implemented", args[1]);
