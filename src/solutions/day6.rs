@@ -18,7 +18,6 @@ fn part_1(input: &String) -> usize {
 fn part_2(input: &String) -> usize {
     input.split("\n\n")
         .map(|group| group.chars()
-            .filter(|c| !c.is_whitespace())
             .collect::<collections::HashSet<char>>()
             .iter()
             .fold(0, |acc, &c| match group.matches(c).count() == group.lines().count() {
