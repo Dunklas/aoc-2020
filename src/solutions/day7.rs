@@ -1,37 +1,9 @@
-use std::{str, fmt, cmp, collections};
+use std::{str, collections};
 use regex::Regex;
 use lazy_static::lazy_static;
 
 lazy_static! {
     static ref CONTENT_REGEX: Regex = Regex::new(r"(\d+) ([\w|\s]+) [bags|bag],*").unwrap();
-}
-#[derive(fmt::Debug)]
-struct ParseBagRuleError;
-
-struct BagRules {
-    rules: collections::HashMap<String, Vec<(u16, String)>>
-}
-impl str::FromStr for BagRules {
-    type Err = ParseBagRuleError;
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut rules = collections::HashMap::<String, Vec<(u16, String)>>::new();
-        s.lines()
-            .for_each(|line| {
-                let parts: Vec<&str> = line.split("contain").collect();
-                let color = String::from(parts[0].replace(" bags ", ""));
-                let mut content: Vec<(u16, String)> = Vec::new();
-
-                for cap in CONTENT_REGEX.captures_iter(parts[1]) {
-                    let count = &cap[1].parse::<u16>().unwrap();
-                    let c = &cap[2];
-                    content.push((*count, String::from(c)));
-                }
-                rules.insert(color, content);
-            });
-        Ok(BagRules{
-            rules
-        })
-    }
 }
 
 pub fn parse_input(input: &str) -> collections::HashMap<String, Vec<String>> {
