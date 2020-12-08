@@ -1,4 +1,4 @@
-pub fn run(input: String) -> i64 {
+pub fn run(input: String) {
     let input: Vec<i64> = input.split("\n")
         .into_iter()
         .map(|s| s.parse::<i64>())
@@ -6,8 +6,6 @@ pub fn run(input: String) -> i64 {
         .collect();
     println!("Part 1: {}", part_1(&input));
     println!("Part 2: {}", part_2(&input));
-    
-    return 0;
 }
 
 fn part_1(input: &Vec<i64>) -> i64 {
