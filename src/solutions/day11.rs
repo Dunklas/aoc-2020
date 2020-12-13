@@ -8,9 +8,10 @@ pub fn run(input: &str) {
 
 fn part_1(input: &str) -> usize {
     let mut grid: Grid<char> = input.parse().unwrap();
+    let coordinates = grid.coordinates();
     loop {
         let mut updates: Vec<(CartesianCoordinate, char)> = Vec::new();
-        grid.coordinates().iter()
+        coordinates.iter()
             .map(|coord| (coord, grid.at(coord).unwrap()))
             .filter(|c| c.1 == '#' || c.1 == 'L')
             .for_each(|(coord, element)| {
@@ -34,9 +35,10 @@ fn part_1(input: &str) -> usize {
 
 fn part_2(input: &str) -> usize {
     let mut grid: Grid<char> = input.parse().unwrap();
+    let coordinates = grid.coordinates();
     loop {
         let mut updates: Vec<(CartesianCoordinate, char)> = Vec::new();
-        grid.coordinates().iter()
+        coordinates.iter()
             .map(|coord| (coord, grid.at(coord).unwrap()))
             .filter(|c| c.1 == '#' || c.1 == 'L') 
             .for_each(|(coord, element)| {
