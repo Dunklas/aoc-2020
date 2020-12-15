@@ -37,23 +37,12 @@ fn part_2(input: &str) -> u64 {
             continue;
         }
         if (t + n as u64) % bus_ids[n as usize] == 0 {
-            step = lcm(bus_ids[n as usize], step);
+            step = bus_ids[n as usize] * step;
             n += 1;
         } 
         t += step;
     }
     t - step
-}
-
-fn lcm(a: u64, b: u64) -> u64 {
-    (a / gcd(a, b)) * b
-}
-
-fn gcd(a: u64, b: u64) -> u64 {
-    if a == 0 {
-        return b;
-    }
-    gcd(b % a, a)
 }
 
 fn parse_input(input: &str) -> (u64, Vec<&str>) {
