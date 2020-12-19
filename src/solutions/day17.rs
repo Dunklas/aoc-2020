@@ -98,6 +98,9 @@ fn active_neighbours(source: &Cube, space: &HashSet<Cube>, target_dimension: usi
     for n in s - 1..=s + 1 {
         let mut coordinate = coordinate.clone();
         coordinate.push(n);
+        if sum > 3 {
+            break;
+        }
         sum += active_neighbours(source, space, target_dimension, dimension + 1, coordinate);
     }
     sum
